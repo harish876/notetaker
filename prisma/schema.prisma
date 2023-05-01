@@ -55,8 +55,29 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    topics         Topic[]
 }
 
+model Topic {
+    id            String    @id @default(cuid())  
+    createdAt     DateTime
+    updatedAt     DateTime
+    title         String
+    user          User      @relation(fields: [userId] , references: [id])
+    userId        String
+    notes         Note[]
+}
+
+model Note {
+    id            String    @id @default(cuid())  
+    createdAt     DateTime
+    updatedAt     DateTime
+    title         String
+    content       String
+    topic         Topic     @relation(fields: [topicId], references: [id])
+    topicId       String   
+
+}
 model VerificationToken {
     identifier String
     token      String   @unique
